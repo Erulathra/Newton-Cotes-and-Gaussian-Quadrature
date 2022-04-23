@@ -1,0 +1,1 @@
+# Newton-Cotes-and-Gaussian-Quadrature
