@@ -2,6 +2,12 @@ import numpy as np
 import newton_cotes as nc
 import gaussian_legendre as gl
 
+from time import process_time_ns
+import os
+
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
+
 
 def main():
     chosen_solver = nc.newton_cotes_quadrature
@@ -13,11 +19,15 @@ def main():
     boundaries = [0, 10]
     while user_input != "q":
         try:
+            cls()
             print()
+            if logger_enabled:
+                print("[ Logger Enabled ]\n")
             print("Wybrana funkcja:", function_name(chosen_function))
             print("Wybrana metoda:", solver_name(chosen_solver))
             print(f"Przedział: <{boundaries[0]}, {boundaries[1]})")
             print(f"Dokładność/liczba węzłów: {precision:.8f}")
+            print()
             user_input = input('''Podaj, czy chcesz:
             (1) Wybrać funkcję
             (2) wybrać metodę całkowania
@@ -32,7 +42,8 @@ def main():
                 case '2':
                     chosen_solver = choose_solver() or chosen_solver
                 case '3':
-                    boundaries = float(input(f"Podaj przedział, oddzielając liczby spacją [<{boundaries[0]}, {boundaries[1]})]: ").split()) or boundaries
+                    boundaries = input(f"Podaj przedział, oddzielając liczby spacją [<{boundaries[0]}, {boundaries[1]})]: ").split() or boundaries
+                    boundaries = [float(number) for number in boundaries]
                 case '4':
                     precision = float(input(f"Podaj dokładność/węzły [{precision:.8f}]: ").replace(",", ".")) or precision
                 case '5':
@@ -42,10 +53,15 @@ def main():
                             input("Wciśnij dowolny klawisz by kontynuować...")
                             continue
                         precision = int(precision)
+                    duration_start = process_time_ns()
                     outcome = chosen_solver(chosen_function, boundaries[0], boundaries[1], precision)
+                    duration_end = process_time_ns()
                     print("Wynik:", outcome)
-                    logger_output += f"Method: {solver_name(chosen_solver)}; \tFunction: {function_name(chosen_function)};"
-                    logger_output += f"\tBoundaries: <{boundaries[0]}, {boundaries[1]}); \tPrecision: {precision:.8f}; \tResult: {outcome} \n"
+                    if(logger_enabled):
+                        time_difference = duration_end - duration_start
+                        logger_output += f"Method: {solver_name(chosen_solver)};\t\tFunction: {function_name(chosen_function)};"
+                        logger_output += f"\tBoundaries: <{boundaries[0]}, {boundaries[1]}); \tPrecision: {precision:.8f}; \tResult: {outcome};"
+                        logger_output += f"\tDuration: {(time_difference)}\n"
                     input("Wciśnij dowolny klawisz by kontynuować...")
                 case 'l':
                     logger_enabled = not logger_enabled
