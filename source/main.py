@@ -4,15 +4,8 @@ import gaussian_legendre as gl
 
 
 def main():
-    # a = 0
-    # b = 10
-    # print(nc.newton_cotes_quadrature(test_function, a, b, 0.00001))
-    # print(gl.gaussian_legendre_quadrature(test_function, a, b, 2))
-    # print(gl.gaussian_legendre_quadrature(test_function, a, b, 3))
-    # print(gl.gaussian_legendre_quadrature(test_function, a, b, 4))
-    # print(gl.gaussian_legendre_quadrature(test_function, a, b, 5))
     chosen_solver = nc.newton_cotes_quadrature
-    chosen_function = Example_Functions.log
+    chosen_function = Example_Functions.with_log
     logger_enabled = False
     logger_output = ""
     user_input = ""
@@ -74,31 +67,32 @@ def solver_name(solver) -> str:
 
 
 def choose_solver():
+    solvers = [nc.newton_cotes_quadrature, gl.gaussian_legendre_quadrature]
     user_choice = input(f"Podaj, czy chcesz metodę: \n\
-        \t(1) {solver_name(nc.newton_cotes_quadrature)}\n\
-        \t(2) {solver_name(gl.gaussian_legendre_quadrature)}\n> ")
-    match user_choice:
-        case '1': return nc.newton_cotes_quadrature
-        case '2': return gl.gaussian_legendre_quadrature
+        \t(1) {solver_name(solvers[0])}\n\
+        \t(2) {solver_name(solvers[1])}\n> ")
+    return solvers[int(user_choice)-1]
 
 
 def choose_function():
+    functions = [Example_Functions.with_square, Example_Functions.with_log, Example_Functions.with_sinus]
     user_choice = input(f"Podaj, czy chcesz funkcję: \n\
-        \t(1) {function_name(Example_Functions.log)}\n> ")
-    match user_choice:
-        case "1":
-            return Example_Functions.log
+        (1) {function_name(functions[0])}\n\
+        (2) {function_name(functions[1])}\n\
+        (3) {function_name(functions[2])}\n> ")
+    if user_choice != '':
+        return functions[int(user_choice) - 1]
 
 def function_name(func) -> str:
     match func:
-        case Example_Functions.log: return "log(x+2) + x^2 * 6"
+        case Example_Functions.with_square: return "x^2 + 5x + 8"
+        case Example_Functions.with_log: return "log(x+2) + x^2 - 6"
+        case Example_Functions.with_sinus: return "4x + cos(x)"
 
 class Example_Functions:
-    def log(x):
-        return np.log(x + 2) + x ** 2 - 6
-    
-def scientific_to_normal(number) -> str:
-    return format(number, 'f')
+    with_square = lambda x: x**2 + 5*x + 8;
+    with_log = lambda x: np.log(x + 2) + x ** 2 - 6
+    with_sinus = lambda x: 4*x + np.cos(x)
 
 if __name__ == "__main__":
     main()
