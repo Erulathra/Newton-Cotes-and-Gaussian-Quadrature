@@ -71,7 +71,8 @@ def choose_solver():
     user_choice = input(f"Podaj, czy chcesz metodę: \n\
         \t(1) {solver_name(solvers[0])}\n\
         \t(2) {solver_name(solvers[1])}\n> ")
-    return solvers[int(user_choice)-1]
+    if user_choice != '':
+        return solvers[int(user_choice)-1]
 
 
 def choose_function():
