@@ -1,4 +1,4 @@
-import numpy as np
+from math import cos, log, sin
 import newton_cotes as nc
 import gaussian_legendre as gl
 
@@ -92,11 +92,12 @@ def choose_solver():
 
 
 def choose_function():
-    functions = [Example_Functions.with_square, Example_Functions.with_log, Example_Functions.with_sinus]
+    functions = [Example_Functions.with_square, Example_Functions.with_log, Example_Functions.with_sinus, Example_Functions.with_sinus_complex]
     user_choice = input(f"Podaj, czy chcesz funkcję: \n\
         (1) {function_name(functions[0])}\n\
         (2) {function_name(functions[1])}\n\
-        (3) {function_name(functions[2])}\n> ")
+        (3) {function_name(functions[2])}\n\
+        (4) {function_name(functions[3])}\n> ")
     if user_choice != '':
         return functions[int(user_choice) - 1]
 
@@ -105,11 +106,13 @@ def function_name(func) -> str:
         case Example_Functions.with_square: return "x^2 + 5x + 8"
         case Example_Functions.with_log: return "log(x+2) + x^2 - 6"
         case Example_Functions.with_sinus: return "4x + cos(x)"
+        case Example_Functions.with_sinus_complex: return "sin(1/x) + 1"
 
 class Example_Functions:
     with_square = lambda x: x**2 + 5*x + 8;
-    with_log = lambda x: np.log(x + 2) + x ** 2 - 6
-    with_sinus = lambda x: 4*x + np.cos(x)
+    with_log = lambda x: log(x + 2) + x ** 2 - 6
+    with_sinus = lambda x: 4*x + cos(x)
+    with_sinus_complex = lambda x: (sin(1/x) + 1) if x != 0 else 0
 
 if __name__ == "__main__":
     main()
