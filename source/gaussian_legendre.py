@@ -7,7 +7,13 @@ legendre_polynomials_solutions = [
     [-np.sqrt(3 / 7 + (2 / 7) * np.sqrt(6 / 5)), -np.sqrt(3 / 7 - (2 / 7) * np.sqrt(6 / 5)),
      np.sqrt(3 / 7 - (2 / 7) * np.sqrt(6 / 5)), np.sqrt(3 / 7 + (2 / 7) * np.sqrt(6 / 5))],
     [-1 / 3 * np.sqrt(5 + 2 * np.sqrt(10 / 7)), -1 / 3 * np.sqrt(5 - 2 * np.sqrt(10 / 7)), 0,
-     1 / 3 * np.sqrt(5 - 2 * np.sqrt(10 / 7)), 1 / 3 * np.sqrt(5 + 2 * np.sqrt(10 / 7))]
+     1 / 3 * np.sqrt(5 - 2 * np.sqrt(10 / 7)), 1 / 3 * np.sqrt(5 + 2 * np.sqrt(10 / 7))],
+    [-0.932469514203152027812,
+     -0.661209386466264513661,
+     -0.238619186083196908631,
+     0.238619186083196908631,
+     0.661209386466264513661,
+     0.932469514203152027812]
 ]
 
 gaussian_legendre_weights = [
@@ -15,12 +21,14 @@ gaussian_legendre_weights = [
     [5 / 9, 8 / 9, 5 / 9],
     [(18 - np.sqrt(30)) / 36, (18 + np.sqrt(30)) / 36, (18 + np.sqrt(30)) / 36, (18 - np.sqrt(30)) / 36],
     [(322 - 13 * np.sqrt(70)) / 900, (322 + 13 * np.sqrt(70)) / 900, 128 / 225,
-     (322 + 13 * np.sqrt(70)) / 900, (322 - 13 * np.sqrt(70)) / 900]
+     (322 + 13 * np.sqrt(70)) / 900, (322 - 13 * np.sqrt(70)) / 900],
+    [-0.932469514203152027812, -0.661209386466264513661, -0.238619186083196908631,
+          0.238619186083196908631, 0.661209386466264513661, 0.932469514203152027812]
 ]
 
 
 def gaussian_legendre_quadrature(function, a: float, b: float, node_count: int) -> float:
-    if node_count > 5 or node_count < 2:
+    if node_count > 6 or node_count < 2:
         raise WrongNodeCountException
 
     if a > b:
